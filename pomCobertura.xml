@@ -1,0 +1,175 @@
+?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.apache.apex</groupId>
+    <artifactId>apex</artifactId>
+    <version>3.6.0-rts3.8.0</version>
+  </parent>
+
+  <groupId>com.datatorrent</groupId>
+  <artifactId>dtx</artifactId>
+  <version>3.8.0</version>
+  <packaging>pom</packaging>
+  <description>DataTorrent RTS, powered by Apache Apex, provides a high-performing, fault-tolerant, scalable, easy to use data processing platform for batch and streaming workloads. It includes advanced management, monitoring, development, visualization, data ingestion and distribution features.</description>
+
+  <name>DataTorrent DTX</name>
+  <url>http://www.datatorrent.com</url>
+
+  <organization>
+    <name>DataTorrent, Inc.</name>
+    <url>http://www.datatorrent.com/</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Copyright &copy; 2014 DataTorrent, Inc.</name>
+      <url>http://www.datatorrent.com/</url>
+    </license>
+  </licenses>
+
+  <properties>
+    <apex.core.version>3.6.0-rts3.8.0</apex.core.version>
+    <maven.deploy.skip>true</maven.deploy.skip>
+    <remoteresources.skip>true</remoteresources.skip>
+    <checkstyle.console>true</checkstyle.console>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>datatorrent</id>
+      <name>DataTorrent Release Repository</name>
+      <url>https://www.datatorrent.com/maven/content/repositories/releases/</url>
+    </repository>
+  </repositories>
+       <reporting>
+                <plugins>
+                        <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-surefire-report-plugin</artifactId>
+                                <version>2.19.1</version>
+                        </plugin>
+                        <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-pmd-plugin</artifactId>
+                                <configuration>
+                                        <rulesets>
+                                                <ruleset>/rulesets/braces.xml</ruleset>
+                                                <ruleset>/rulesets/naming.xml</ruleset>
+                                                <ruleset>d:\rulesets\strings.xml</ruleset>
+                                                <ruleset>http://localhost/design.xml</ruleset>
+                                        </rulesets>
+                                </configuration>
+                        </plugin>
+                </plugins>
+        </reporting>
+
+
+  <modules>
+    <module>rts</module>
+    <module>license</module>
+    <module>gateway</module>
+    <module>certification</module>
+    <module>security</module>
+    <module>plugins</module>
+  </modules>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>2.17</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.apex</groupId>
+              <artifactId>apex-codestyle-config</artifactId>
+              <version>1.0.0-incubating</version>
+            </dependency>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>6.15</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+  <profile>
+      <id>release</id>
+      <modules>
+        <module>dist</module>
+      </modules>
+      <properties>
+        <maven.compiler.debug>false</maven.compiler.debug>
+        <maven.compiler.optimize>true</maven.compiler.optimize>
+        <maven.deploy.skip>false</maven.deploy.skip>
+        <maven.deploy.repo.classifier></maven.deploy.repo.classifier>
+        <distMgmtDevUrl>internal.repo::default::file://${project.build.directory}/mvn-repo</distMgmtDevUrl>
+        <distMgmtUrl>dav:http://www.datatorrent.com:8081/nexus/content/repositories</distMgmtUrl>
+        <package.prefix>/opt/datatorrent</package.prefix>
+        <package.groupname>dtorrent</package.groupname>
+      </properties>
+      <distributionManagement>
+        <repository>
+          <id>releases</id>
+          <name>DataTorrent Repository</name>
+          <url>${distMgmtUrl}/${maven.deploy.repo.classifier}releases/</url>
+        </repository>
+        <snapshotRepository>
+          <id>snapshots</id>
+          <name>DataTorrent Snapshots</name>
+          <url>${distMgmtUrl}/${maven.deploy.repo.classifier}snapshots/</url>
+        </snapshotRepository>
+      </distributionManagement>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>1.9.1</version>
+            <executions>
+              <execution>
+                <id>parse-version</id>
+                <goals>
+                  <goal>parse-version</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+  </profile>
+    <profile>
+      <id>apache-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>enforce-disabled-profile</id>
+                <goals>
+                  <goal>enforce</goal>
+                </goals>
+                <configuration>
+                  <rules>
+                    <AlwaysFail/>
+                  </rules>
+                  <fail>true</fail>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
+                                                                                                                                                                                                                     175,1         Bot
