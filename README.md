@@ -1,5 +1,6 @@
 # codecoverage
 Using cobertura maven plugin
+https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin
 
 In case of multimodule project. you will add below plugin entry in pluginManagement tag
   <plugin>
@@ -27,3 +28,6 @@ And below snippet in every modules' pom file
     <groupId>org.codehaus.mojo</groupId>
     <artifactId>cobertura-maven-plugin</artifactId>
  </plugin>
+
+To publish the result on Jenkins, add cobertura plugin on jenkins
+https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin 
